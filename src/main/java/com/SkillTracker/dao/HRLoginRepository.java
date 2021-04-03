@@ -9,5 +9,7 @@ public interface HRLoginRepository extends CrudRepository<HRManagers, Integer> {
 	HRManagers findByHrUserName(String hrUserName);
 
 	HRManagers findByAccessStatus(String string);
+
+	void deleteByHrUserName(String hrUserName);
 	
 }

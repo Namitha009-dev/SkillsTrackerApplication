@@ -1,5 +1,7 @@
 package com.SkillTracker.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ public class HrLoginService implements HrLoginServiceInterface {
 	HRManagers existingHrLogin = new HRManagers(); //variable to get information about HR from database
 	LoginResultClass loginResult = new LoginResultClass(); //Object to return JSON Object to Angular
 	HRManagers logedinHr = new HRManagers();
+	LoginResultClass UpdateHR = new LoginResultClass();
 //	Function to Check Login Status
 	
 	public LoginResultClass loginHrManager(HRManagers hrmanager) {
@@ -41,10 +44,38 @@ public class HrLoginService implements HrLoginServiceInterface {
 		return	loginResult;
 		}
 
-		public HRManagers getHRDetails() {
+		public HRManagers getActiveHRDetails() {
 			logedinHr = repo.findByAccessStatus("Active");
 			return logedinHr;
 		}
 
+		public List<HRManagers> viewAllHRManagers(){
+			return (List<HRManagers>) repo.findAll();
+		}
 
+		public LoginResultClass updatePassword(HRManagers hrmanager) {
+			existingHrLogin = repo.findByHrUserName(hrmanager.getHrUserName()); 
+			if(existingHrLogin == null) {
+				loginResult.setUpdateHRResult("Username does not exist"); 
+			}else {
+				repo.save(hrmanager);
+				loginResult.setUpdateHRResult("HR Details updated successfully");
+			}
+			return	loginResult;
+		}
+
+		public LoginResultClass deleteHRManager(HRManagers hrmanager) {
+			existingHrLogin = repo.findByHrUserName(hrmanager.getHrUserName()); 
+			if(existingHrLogin == null) {
+				loginResult.setUpdateHRResult("Username does not exist"); 
+			}else {
+				repo.delete(hrmanager);
+				loginResult.setUpdateHRResult("HR Details deleted successfully");
+			}
+			return	loginResult;
+		}
+
+		public HRManagers getHrManagerByUserName(String hrUserName) {
+			return repo.findByHrUserName(hrUserName);
+		}
 	}

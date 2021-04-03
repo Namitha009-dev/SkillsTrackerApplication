@@ -44,8 +44,7 @@ public class HRManagers {
 	public void setAccessStatus(String accessStatus) {
 		this.accessStatus = accessStatus;
 	}
-
-
+	
 	@Override
 	public String toString() {
 		return "HRManagers [hrUserName=" + hrUserName + ", hrName=" + hrName + ", hrPassword=" + hrPassword
